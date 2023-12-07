@@ -1,7 +1,3 @@
-"""
-6.101 Lab 2:
-Image Processing 2
-"""
 import math
 from PIL import Image
 
@@ -57,21 +53,6 @@ def inverted(image):
 
 
 def correlate(image, kernel, boundary_behavior):
-    """
-    Compute the result of correlating the given image with the given kernel.
-    `boundary_behavior` will one of the strings "zero", "extend", or "wrap",
-    and this function will treat out-of-bounds pixels as having the value zero,
-    the value of the nearest edge, or the value wrapped around the other edge
-    of the image, respectively.
-
-    if boundary_behavior is not one of "zero", "extend", or "wrap", return
-    None.
-
-    Otherwise, the output of this function should have the same form as a 6.101
-    image (a dictionary with "height", "width", and "pixels" keys), but its
-    pixel values do not necessarily need to be in the range [0,255], nor do
-    they need to be integers (they should not be clipped or rounded at all).
-    """
     if boundary_behavior not in ["zero", "extend", "wrap"]:
         return None
 
@@ -105,12 +86,6 @@ def correlate(image, kernel, boundary_behavior):
 
 
 def round_and_clip_image(image):
-    """
-    Given a dictionary, ensure that the values in the "pixels" list are all
-    integers in the range [0, 255].
-
-    All values should be converted to integers using Python's `round` function.
-    """
     for idx, pixel in enumerate(image["pixels"]):
         rounded_pixel = round(pixel)
         image["pixels"][idx] = max(0, min(255, rounded_pixel))
@@ -128,17 +103,6 @@ def box_kernel(n):
 
 
 def blurred(image, kernel_size):
-    """
-    Return a new image representing the result of applying a box blur (with the
-    given kernel size) to the given input image.
-    """
-    # first, create a representation for the appropriate n-by-n kernel (you may
-    # wish to define another helper function for this)
-
-    # then compute the correlation of the input image with that kernel
-
-    # and, finally, make sure that the output is a valid image (using the
-    # helper function from above) before returning it.
     kernel = box_kernel(kernel_size)
     # print(kernel)
     blurred_image = correlate(image, kernel, "extend")
@@ -147,10 +111,6 @@ def blurred(image, kernel_size):
 
 
 def sharpened(image, n):
-    """
-    Return an image representing the result of applying an unsharp mask
-    (with the given kernel size) to the given input image.
-    """
     kernel = [[-1 / (n * n) for _ in range(n)] for _ in range(n)]
     kernel[n // 2][
         n // 2
@@ -162,13 +122,6 @@ def sharpened(image, n):
 
 
 def edges(image):
-    """
-    Return a new image emphasizing edges using the given Sobel operator.
-    Kernels k1 and k2 are applied to the image in O1 and O2,
-    with the final image consisting of pixels that are the square root of
-    the pixels in O1^2 plus O2^2
-
-    """
     k1 = [[-1, -2, -1], [0, 0, 0], [1, 2, 1]]
 
     k2 = [[-1, 0, 1], [-2, 0, 2], [-1, 0, 1]]
